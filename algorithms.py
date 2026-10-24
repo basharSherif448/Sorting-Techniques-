@@ -10,6 +10,7 @@ def bubble_sort(arr):
         if not swapped: # to check that its already sorted or no
             break
     return arr
+
 def insertion_sort(arr):
     n = len(arr)
     for i in range(1,n):
@@ -31,27 +32,41 @@ def selection_sort(arr):
 
         arr[i],arr[k] = arr[k],arr[i]
 
+def merge_sort(arr):
+    if len(arr) > 1:
+        mid = len(arr) // 2
+        left_half = arr[:mid]
+        right_half = arr[mid:]
 
-def quick_sort(arr, low, high):
-    if low < high:
-        p = partition(arr, low, high)
+        # Recursive call on both halves
+        merge_sort(left_half)
+        merge_sort(right_half)
 
-        quick_sort(arr, low, p - 1)
-        quick_sort(arr, p + 1, high)
+        i = j = k = 0
 
+        # Copy data to temporary arrays left_half and right_half
+        while i < len(left_half) and j < len(right_half):
+            if left_half[i] < right_half[j]:
+                arr[k] = left_half[i]
+                i += 1
+            else:
+                arr[k] = right_half[j]
+                j += 1
+            k += 1
 
-def partition(arr, low, high):
-    pivot = arr[high]
-    i = low - 1
-
-    for j in range(low, high):
-        if arr[j] <= pivot:
+        # Checking if any element was left
+        while i < len(left_half):
+            arr[k] = left_half[i]
             i += 1
-            arr[i], arr[j] = arr[j], arr[i]
+            k += 1
 
-    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+        while j < len(right_half):
+            arr[k] = right_half[j]
+            j += 1
+            k += 1
+            
+    return arr
 
-    return i + 1
 
 def heapify(arr, n, i):
     largest = i
@@ -80,3 +95,31 @@ def heap_sort(arr):
         heapify(arr, i, 0)
 
     return arr
+
+
+def quick_sort(arr, low, high):
+    if low < high:
+        p = partition(arr, low, high)
+
+        quick_sort(arr, low, p - 1)
+        quick_sort(arr, p + 1, high)
+
+
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+
+    return i + 1
+
+
+arr = [7, 2, 9, 4, 3, 8, 1, 6]
+quick_sort(arr, 0, len(arr) - 1)
+print(arr)
+
