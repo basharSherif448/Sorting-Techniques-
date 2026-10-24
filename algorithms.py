@@ -119,7 +119,4 @@ def partition(arr, low, high):
     return i + 1
 
 
-arr = [7, 2, 9, 4, 3, 8, 1, 6]
-quick_sort(arr, 0, len(arr) - 1)
-print(arr)
 
