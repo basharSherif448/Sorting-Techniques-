@@ -1,15 +1,16 @@
 import random
 import time
 import matplotlib.pyplot as plt
-from algorithms import bubble_sort, selection_sort, insertion_sort
+from algorithms import bubble_sort, selection_sort, insertion_sort, merge_sort
 
 
-btime=[]
-stime=[]
-itime=[]
+btime = []
+stime = []
+itime = []
+mtime = []
 
 def generate_random_array(size):
-    return random.choices(range(1_000_000), k=size) # genrating lists with random number  
+    return random.choices(range(1_000_000), k=size) # generating lists with random numbers  
 
 sizes = [10000, 25000, 50000, 100000]
 
@@ -17,7 +18,7 @@ for size in sizes:
     print(f"\n--- Testing Array Size: {size} ---")
     base_arr = generate_random_array(size)
 
-    #  Bubble Sort
+    # 1. Bubble Sort
     arr_bubble = base_arr.copy()
     start = time.time()
     bubble_sort(arr_bubble)
@@ -44,13 +45,21 @@ for size in sizes:
     itime.append(insertion_time)
     print(f"Running time for Insertion Sort is {insertion_time:.2f} ms")
 
-
+    # 4. Merge Sort
+    arr_merge = base_arr.copy()
+    start = time.time()
+    merge_sort(arr_merge)
+    end = time.time()
+    merge_time = (end - start) * 1000
+    mtime.append(merge_time)
+    print(f"Running time for Merge Sort is {merge_time:.2f} ms")
 
 
 plt.figure(figsize=(8, 5))
 plt.plot(sizes, btime, label="Bubble sort", color="blue", marker="o")
 plt.plot(sizes, stime, label="Selection sort", color="red", marker="o")
 plt.plot(sizes, itime, label="Insertion sort", color="gold", marker="o")
+plt.plot(sizes, mtime, label="Merge sort", color="green", marker="o")
 
 plt.xlabel("Input size (N)")
 plt.ylabel("Execution time (ms)")
